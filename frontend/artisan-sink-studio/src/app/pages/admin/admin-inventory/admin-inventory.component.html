@@ -1,0 +1,33 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <h1 class="section-title mb-8">Inventory Management</h1>
+
+  <div class="card p-6 mb-8">
+    <p class="text-dark-400">Total Products</p>
+    <p class="text-4xl font-bold text-dark-50">{{ totalProducts }}</p>
+  </div>
+
+  <h2 class="text-lg font-semibold text-dark-100 mb-4">Low Stock Alert (≤ 5 units)</h2>
+  @if (loading) {
+    <div class="animate-pulse space-y-3">@for (i of [1,2,3]; track i) { <div class="card h-16"></div> }</div>
+  } @else if (lowStockItems.length === 0) {
+    <p class="text-dark-400">All products are well stocked!</p>
+  } @else {
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="text-dark-400 border-b border-dark-800">
+          <th class="text-left py-3 px-4">Product</th><th class="text-left py-3">Price</th><th class="text-left py-3">Stock</th><th class="text-right py-3 px-4">Action</th>
+        </tr></thead>
+        <tbody>
+          @for (p of lowStockItems; track p._id) {
+            <tr class="border-b border-dark-800/50">
+              <td class="py-3 px-4 text-dark-100">{{ p.name }}</td>
+              <td class="py-3 text-accent">{{ p.price | price }}</td>
+              <td class="py-3 text-amber-400 font-bold">{{ p.stock }}</td>
+              <td class="py-3 px-4 text-right"><a [routerLink]="['/admin/products/edit', p._id]" class="text-primary-400 hover:underline">Restock</a></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,75 @@
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <h1 class="section-title mb-8">{{ languageService.t('checkout.title') }}</h1>
+
+  @if (cartService.cart().items.length === 0) {
+    <div class="text-center py-16">
+      <p class="text-dark-400 mb-4">{{ languageService.t('cart.empty') }}</p>
+      <a routerLink="/products" class="btn-primary">{{ languageService.t('cart.browseProducts') }}</a>
+    </div>
+  } @else {
+    <div class="grid lg:grid-cols-2 gap-8">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+        <h2 class="text-lg font-semibold text-dark-100 mb-4">{{ languageService.t('checkout.shippingInfo') }}</h2>
+        @if (error) { <div class="p-3 bg-red-900/50 border border-red-700 text-red-300 rounded-lg text-sm">{{ error }}</div> }
+
+        <div>
+          <label class="block text-sm text-dark-400 mb-1">{{ languageService.t('checkout.fullName') }}</label>
+          <input formControlName="fullName" class="input-field">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-dark-400 mb-1">{{ languageService.t('auth.email') }}</label>
+            <input type="email" formControlName="email" class="input-field">
+          </div>
+          <div>
+            <label class="block text-sm text-dark-400 mb-1">{{ languageService.t('auth.phone') }}</label>
+            <input formControlName="phone" class="input-field">
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm text-dark-400 mb-1">{{ languageService.t('checkout.street') }}</label>
+          <input formControlName="street" class="input-field">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-dark-400 mb-1">{{ languageService.t('checkout.city') }}</label>
+            <input formControlName="city" class="input-field">
+          </div>
+          <div>
+            <label class="block text-sm text-dark-400 mb-1">{{ languageService.t('checkout.state') }}</label>
+            <input formControlName="state" class="input-field">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-dark-400 mb-1">{{ languageService.t('checkout.zipCode') }}</label>
+            <input formControlName="zipCode" class="input-field">
+          </div>
+          <div>
+            <label class="block text-sm text-dark-400 mb-1">{{ languageService.t('checkout.country') }}</label>
+            <input formControlName="country" class="input-field">
+          </div>
+        </div>
+        <button type="submit" [disabled]="form.invalid || loading" class="btn-primary w-full">
+          {{ languageService.t('checkout.placeOrder') }}
+        </button>
+      </form>
+
+      <div class="card p-6 h-fit">
+        <h2 class="text-lg font-semibold text-dark-100 mb-4">{{ languageService.t('checkout.orderSummary') }}</h2>
+        <div class="space-y-3 mb-4">
+          @for (item of cartService.cart().items; track item.productId) {
+            <div class="flex justify-between text-sm">
+              <span class="text-dark-300">{{ item.name }} × {{ item.quantity }}</span>
+              <span class="text-dark-100">{{ item.price * item.quantity | price }}</span>
+            </div>
+          }
+        </div>
+        <div class="border-t border-dark-700 pt-4 flex justify-between font-bold">
+          <span class="text-dark-200">{{ languageService.t('cart.total') }}</span>
+          <span class="text-accent text-xl">{{ cartService.cart().total | price }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>

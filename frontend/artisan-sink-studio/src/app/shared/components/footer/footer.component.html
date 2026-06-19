@@ -1,0 +1,29 @@
+<footer class="glass-header mt-auto border-t border-white/[0.06]">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="md:col-span-2">
+        <h3 class="font-display text-xl font-bold text-dark-50 mb-3">{{ languageService.t('footer.title') }}</h3>
+        <p class="text-dark-400 max-w-md">{{ languageService.t('footer.description') }}</p>
+      </div>
+      <div>
+        <h4 class="font-semibold text-dark-200 mb-3">{{ languageService.t('footer.quickLinks') }}</h4>
+        <ul class="space-y-2 text-dark-400">
+          <li><a routerLink="/products" class="hover:text-primary-400 transition">{{ languageService.t('footer.catalog') }}</a></li>
+          <li><a routerLink="/about" class="hover:text-primary-400 transition">{{ languageService.t('footer.about') }}</a></li>
+          <li><a routerLink="/contact" class="hover:text-primary-400 transition">{{ languageService.t('footer.contact') }}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-dark-200 mb-3">{{ languageService.t('footer.contact') }}</h4>
+        <ul class="space-y-2 text-dark-400 text-sm">
+          <li>{{ languageService.t('contact.addressInfo') }}</li>
+          <li>{{ languageService.t('contact.emailInfo') }}</li>
+          <li>{{ languageService.t('contact.phoneInfo') }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/[0.06] mt-8 pt-8 text-center text-dark-500 text-sm">
+      &copy; {{ currentYear }} {{ languageService.t('footer.title') }}. {{ languageService.t('footer.rights') }}
+    </div>
+  </div>
+</footer>

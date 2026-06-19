@@ -1,0 +1,21 @@
+const Cart = require('../models/Cart.model');
+
+class CartRepository {
+  async findByUserId(userId) {
+    let cart = await Cart.findOne({ userId });
+    if (!cart) {
+      cart = await Cart.create({ userId, items: [] });
+    }
+    return cart;
+  }
+
+  async save(cart) {
+    return cart.save();
+  }
+
+  async clear(userId) {
+    return Cart.findOneAndUpdate({ userId }, { items: [] }, { new: true });
+  }
+}
+
+module.exports = new CartRepository();

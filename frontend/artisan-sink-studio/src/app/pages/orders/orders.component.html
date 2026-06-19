@@ -1,0 +1,59 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  @if (selectedOrder; as order) {
+    <div class="mb-4"><a routerLink="/orders" class="text-primary-400 text-sm hover:underline">← Back to orders</a></div>
+    <h1 class="section-title mb-2">Order Confirmation</h1>
+    <p class="text-green-400 mb-6">Thank you! Your order has been placed successfully.</p>
+
+    <div class="card p-6 mb-6">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <p class="text-dark-400 text-sm">Order ID</p>
+          <p class="font-mono text-dark-100">{{ order._id }}</p>
+        </div>
+        <span [class]="statusColor(order.status)" class="font-medium">{{ order.status }}</span>
+      </div>
+      <p class="text-dark-400 text-sm mb-4">Placed on {{ order.createdAt | date:'full' }}</p>
+
+      <h3 class="font-semibold text-dark-100 mb-3">Items</h3>
+      @for (item of order.items; track item.productId) {
+        <div class="flex justify-between py-2 border-b border-dark-800">
+          <span class="text-dark-300">{{ item.name }} × {{ item.quantity }}</span>
+          <span class="text-dark-100">{{ item.price * item.quantity | price }}</span>
+        </div>
+      }
+      <div class="flex justify-between pt-4 font-bold">
+        <span>Total</span>
+        <span class="text-accent text-xl">{{ order.totalPrice | price }}</span>
+      </div>
+    </div>
+
+    <div class="card p-6">
+      <h3 class="font-semibold text-dark-100 mb-3">Shipping Address</h3>
+      <p class="text-dark-300">{{ order.shippingAddress.fullName }}</p>
+      <p class="text-dark-300">{{ order.shippingAddress.street }}</p>
+      <p class="text-dark-300">{{ order.shippingAddress.city }}, {{ order.shippingAddress.state }} {{ order.shippingAddress.zipCode }}</p>
+    </div>
+  } @else {
+    <h1 class="section-title mb-8">My Orders</h1>
+    @if (loading) {
+      <div class="animate-pulse space-y-4">@for (i of [1,2,3]; track i) { <div class="card h-20"></div> }</div>
+    } @else if (orders.length === 0) {
+      <p class="text-dark-400 text-center py-16">No orders yet. <a routerLink="/products" class="text-primary-400">Start shopping</a></p>
+    } @else {
+      <div class="space-y-4">
+        @for (order of orders; track order._id) {
+          <a [routerLink]="['/orders', order._id]" class="card p-4 flex justify-between items-center hover:border-primary-600/50 transition block">
+            <div>
+              <p class="font-medium text-dark-100">Order #{{ order._id.slice(-8) }}</p>
+              <p class="text-dark-400 text-sm">{{ order.createdAt | date:'medium' }} · {{ order.items.length }} items</p>
+            </div>
+            <div class="text-right">
+              <p class="text-accent font-bold">{{ order.totalPrice | price }}</p>
+              <span [class]="statusColor(order.status)" class="text-sm">{{ order.status }}</span>
+            </div>
+          </a>
+        }
+      </div>
+    }
+  }
+</div>

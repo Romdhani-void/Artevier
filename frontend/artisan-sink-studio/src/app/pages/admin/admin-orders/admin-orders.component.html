@@ -1,0 +1,37 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <h1 class="section-title mb-8">Order Management</h1>
+
+  <div class="mb-6">
+    <select [(ngModel)]="statusFilter" (change)="load()" class="input-field max-w-xs">
+      <option value="">All Statuses</option>
+      @for (s of statuses; track s) { <option [value]="s">{{ s }}</option> }
+    </select>
+  </div>
+
+  @if (loading) {
+    <div class="animate-pulse space-y-3">@for (i of [1,2,3]; track i) { <div class="card h-16"></div> }</div>
+  } @else {
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="text-dark-400 border-b border-dark-800">
+          <th class="text-left py-3 px-4">Order</th><th class="text-left py-3">Date</th><th class="text-left py-3">Total</th><th class="text-left py-3">Status</th><th class="text-right py-3 px-4">Actions</th>
+        </tr></thead>
+        <tbody>
+          @for (order of orders; track order._id) {
+            <tr class="border-b border-dark-800/50">
+              <td class="py-3 px-4 font-mono text-dark-100">#{{ order._id.slice(-8) }}</td>
+              <td class="py-3 text-dark-400">{{ order.createdAt | date:'short' }}</td>
+              <td class="py-3 text-accent font-bold">{{ order.totalPrice | price }}</td>
+              <td class="py-3"><span class="px-2 py-1 rounded bg-dark-800 text-dark-300 text-xs">{{ order.status }}</span></td>
+              <td class="py-3 px-4 text-right">
+                <select [value]="order.status" (change)="updateStatus(order._id, $any($event.target).value)" class="input-field text-xs py-1 w-auto inline">
+                  @for (s of statuses; track s) { <option [value]="s">{{ s }}</option> }
+                </select>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

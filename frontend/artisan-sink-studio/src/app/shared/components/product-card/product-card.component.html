@@ -1,0 +1,18 @@
+<a [routerLink]="['/products', product.slug]" class="card group hover:border-primary-400/30 hover:bg-white/[0.06] transition-all duration-300 block">
+  <div class="aspect-square bg-white/[0.03] overflow-hidden">
+    <img [src]="imageUrl" [alt]="product.name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"
+      onerror="this.src='https://placehold.co/400x400/1e293b/64748b?text=Sink'">
+  </div>
+  <div class="p-4">
+    <p class="text-xs text-primary-400 uppercase tracking-wider mb-1">{{ product.material }}</p>
+    <h3 class="font-semibold text-dark-100 group-hover:text-primary-400 transition truncate">{{ product.name }}</h3>
+    <div class="flex items-center justify-between mt-2">
+      <span class="price-tag text-lg">{{ product.price | price }}</span>
+      @if (product.stock === 0) {
+        <span class="text-xs text-red-400">Out of stock</span>
+      } @else if (product.stock <= 5) {
+        <span class="text-xs text-amber-400">Low stock</span>
+      }
+    </div>
+  </div>
+</a>

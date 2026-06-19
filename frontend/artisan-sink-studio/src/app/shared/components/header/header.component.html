@@ -1,0 +1,51 @@
+<header class="sticky top-0 z-50 glass-header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a routerLink="/" class="flex items-center gap-2">
+        <span class="text-accent text-2xl font-display font-bold">{{ languageService.t('header.brand') }}</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6">
+        <a routerLink="/" routerLinkActive="text-primary-400" [routerLinkActiveOptions]="{exact: true}" class="text-dark-300 hover:text-dark-50 transition">{{ languageService.t('header.home') }}</a>
+        <a routerLink="/products" routerLinkActive="text-primary-400" class="text-dark-300 hover:text-dark-50 transition">{{ languageService.t('header.catalog') }}</a>
+        <a routerLink="/about" routerLinkActive="text-primary-400" class="text-dark-300 hover:text-dark-50 transition">{{ languageService.t('header.about') }}</a>
+        <a routerLink="/contact" routerLinkActive="text-primary-400" class="text-dark-300 hover:text-dark-50 transition">{{ languageService.t('header.contact') }}</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <app-currency-toggle />
+        <app-language-toggle />
+        @if (auth.isAuthenticated()) {
+          <a routerLink="/cart" class="relative p-2 text-dark-300 hover:text-dark-50">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            @if (cart.itemCount() > 0) {
+              <span class="absolute -top-1 -right-1 bg-accent text-dark-950 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">{{ cart.itemCount() }}</span>
+            }
+          </a>
+          @if (auth.isAdmin()) {
+            <a routerLink="/admin" class="btn-secondary text-sm py-1.5 px-4">{{ languageService.t('header.admin') }}</a>
+          } @else {
+            <a routerLink="/dashboard" class="btn-secondary text-sm py-1.5 px-4">{{ languageService.t('header.dashboard') }}</a>
+          }
+          <button (click)="logout()" class="text-dark-400 hover:text-dark-100 text-sm">{{ languageService.t('header.logout') }}</button>
+        } @else {
+          <a routerLink="/login" class="text-dark-300 hover:text-dark-50 text-sm">{{ languageService.t('header.login') }}</a>
+          <a routerLink="/register" class="btn-primary text-sm py-1.5 px-4">{{ languageService.t('header.register') }}</a>
+        }
+
+        <button (click)="toggleMenu()" class="md:hidden p-2 text-dark-300">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    @if (mobileMenuOpen) {
+      <nav class="md:hidden py-4 border-t border-white/[0.06] space-y-2">
+        <a routerLink="/" (click)="mobileMenuOpen=false" class="block py-2 text-dark-300">{{ languageService.t('header.home') }}</a>
+        <a routerLink="/products" (click)="mobileMenuOpen=false" class="block py-2 text-dark-300">{{ languageService.t('header.catalog') }}</a>
+        <a routerLink="/about" (click)="mobileMenuOpen=false" class="block py-2 text-dark-300">{{ languageService.t('header.about') }}</a>
+        <a routerLink="/contact" (click)="mobileMenuOpen=false" class="block py-2 text-dark-300">{{ languageService.t('header.contact') }}</a>
+      </nav>
+    }
+  </div>
+</header>

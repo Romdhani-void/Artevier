@@ -1,0 +1,17 @@
+<div class="max-w-4xl mx-auto px-4 py-12">
+  <h1 class="section-title mb-6">{{ languageService.t('about.title') }}</h1>
+  <div class="prose prose-invert max-w-none space-y-6 text-dark-300 leading-relaxed">
+    <p class="text-lg text-dark-200">{{ languageService.t('about.lead') }}</p>
+    <p>{{ languageService.t('about.piece') }}</p>
+    <h2 class="text-2xl font-display font-bold text-dark-50 mt-8">{{ languageService.t('about.missionTitle') }}</h2>
+    <p>{{ languageService.t('about.missionText') }}</p>
+    <h2 class="text-2xl font-display font-bold text-dark-50 mt-8">{{ languageService.t('about.qualityTitle') }}</h2>
+    <ul class="list-disc pl-6 space-y-2">
+      <li>{{ languageService.t('about.bullet1') }}</li>
+      <li>{{ languageService.t('about.bullet2') }}</li>
+      <li>{{ languageService.t('about.bullet3') }}</li>
+      <li>{{ languageService.t('about.bullet4') }}</li>
+    </ul>
+  </div>
+  <div class="mt-10"><a routerLink="/products" class="btn-primary">{{ languageService.t('about.cta') }}</a></div>
+</div>

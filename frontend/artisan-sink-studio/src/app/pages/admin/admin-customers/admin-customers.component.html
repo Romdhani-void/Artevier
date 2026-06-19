@@ -1,0 +1,38 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <h1 class="section-title mb-8">Customer Management</h1>
+
+  <div class="mb-6 flex gap-4">
+    <input [(ngModel)]="search" (keyup.enter)="load()" class="input-field max-w-sm" placeholder="Search customers...">
+    <button (click)="load()" class="btn-secondary">Search</button>
+  </div>
+
+  @if (loading) {
+    <div class="animate-pulse space-y-3">@for (i of [1,2,3]; track i) { <div class="card h-16"></div> }</div>
+  } @else {
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="text-dark-400 border-b border-dark-800">
+          <th class="text-left py-3 px-4">Name</th><th class="text-left py-3">Email</th><th class="text-left py-3">Role</th><th class="text-left py-3">Joined</th><th class="text-right py-3 px-4">Actions</th>
+        </tr></thead>
+        <tbody>
+          @for (user of users; track user._id) {
+            <tr class="border-b border-dark-800/50">
+              <td class="py-3 px-4 text-dark-100">{{ user.firstName }} {{ user.lastName }}</td>
+              <td class="py-3 text-dark-400">{{ user.email }}</td>
+              <td class="py-3">
+                <select [value]="user.role" (change)="updateRole(user._id, $any($event.target).value)" class="input-field text-xs py-1 w-auto">
+                  <option value="customer">Customer</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </td>
+              <td class="py-3 text-dark-400">{{ user.createdAt | date:'mediumDate' }}</td>
+              <td class="py-3 px-4 text-right">
+                <button (click)="deleteUser(user._id)" class="text-red-400 hover:underline">Delete</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

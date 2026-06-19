@@ -1,0 +1,42 @@
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="section-title">Product Management</h1>
+    <a routerLink="/admin/products/new" class="btn-primary">Add Product</a>
+  </div>
+
+  <div class="mb-6 flex gap-4">
+    <input [(ngModel)]="search" (keyup.enter)="load()" class="input-field max-w-sm" placeholder="Search products...">
+    <button (click)="load()" class="btn-secondary">Search</button>
+  </div>
+
+  @if (loading) {
+    <div class="animate-pulse space-y-3">@for (i of [1,2,3]; track i) { <div class="card h-16"></div> }</div>
+  } @else {
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead><tr class="text-dark-400 border-b border-dark-800">
+          <th class="text-left py-3 px-4">Product</th><th class="text-left py-3">Price</th><th class="text-left py-3">Stock</th><th class="text-left py-3">Featured</th><th class="text-right py-3 px-4">Actions</th>
+        </tr></thead>
+        <tbody>
+          @for (p of products; track p._id) {
+            <tr class="border-b border-dark-800/50 hover:bg-dark-900/50">
+              <td class="py-3 px-4">
+                <div class="flex items-center gap-3">
+                  <img [src]="productService.getImageUrl(p.images?.[0] || '')" class="w-10 h-10 rounded object-cover bg-dark-800">
+                  <span class="text-dark-100">{{ p.name }}</span>
+                </div>
+              </td>
+              <td class="py-3 text-accent">{{ p.price | price }}</td>
+              <td class="py-3" [class]="p.stock <= 5 ? 'text-amber-400' : 'text-dark-300'">{{ p.stock }}</td>
+              <td class="py-3">{{ p.featured ? '✓' : '—' }}</td>
+              <td class="py-3 px-4 text-right space-x-2">
+                <a [routerLink]="['/admin/products/edit', p._id]" class="text-primary-400 hover:underline">Edit</a>
+                <button (click)="deleteProduct(p._id)" class="text-red-400 hover:underline">Delete</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

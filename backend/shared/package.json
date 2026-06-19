@@ -1,0 +1,10 @@
+{
+  "name": "@ass/shared",
+  "version": "1.0.0",
+  "description": "Shared utilities for Artisan Sink Studio microservices",
+  "main": "index.js",
+  "dependencies": {
+    "express-mongo-sanitize": "^2.2.0",
+    "winston": "^3.17.0"
+  }
+}
