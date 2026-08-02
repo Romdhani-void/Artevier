@@ -19,13 +19,20 @@ pipeline {
             steps {
                 container('node') {
                     dir('backend/user-service') {
-                        sh 'node --version'
-                        sh 'npm --version'
-                        sh 'npm install'
+                        sh 'npm ci || npm install'
                     }
                 }
             }
         }
 
+        stage('Build Backend Docker Image') {
+            steps {
+                container('aws') {
+                    sh '''
+                aws ecr get-login-password --region eu-west-3
+            '''
+                }
+            }
+        }
     }
 }
