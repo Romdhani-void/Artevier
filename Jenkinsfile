@@ -28,6 +28,11 @@ pipeline {
         }
         stage('Verify Tools') {
             steps {
+                container('tools') {
+                    sh 'kubectl version --client'
+                    sh 'helm version'
+                }
+
                 container('aws') {
                     sh 'aws --version'
                 }
