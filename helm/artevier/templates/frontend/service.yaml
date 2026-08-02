@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: artevier
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - port: {{ (index .Values.services "frontend").port }}
+      targetPort: {{ (index .Values.services "frontend").targetPort }}
+      protocol: TCP

@@ -1,0 +1,47 @@
+image:
+  tag: latest
+  pullPolicy: IfNotPresent
+
+services:
+  api-gateway:
+    replicas: 1
+    port: 80
+    targetPort: 8080
+    image: ""
+
+  frontend:
+    replicas: 1
+    port: 80
+    targetPort: 3000
+    image: ""
+
+  notification-service:
+    replicas: 1
+    port: 80
+    targetPort: 8080
+    image: ""
+
+  order-service:
+    replicas: 1
+    port: 80
+    targetPort: 8080
+    image: ""
+
+  product-service:
+    replicas: 1
+    port: 80
+    targetPort: 8080
+    image: ""
+
+  user-service:
+    replicas: 1
+    port: 80
+    targetPort: 8080
+    image: ""
+
+ingress:
+  enabled: true
+  className: alb
+  scheme: internet-facing
+  targetType: ip
+  healthCheckPath: /health

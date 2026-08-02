@@ -1,0 +1,20 @@
+replicas: 1
+
+serviceAccount:
+  create: true
+  name: karpenter
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::566167302576:role/artevier-eks-cluster-karpenter-controller-role"
+
+settings:
+  clusterName: artevier-eks-cluster
+  clusterEndpoint: "https://354E3E450392A2408C74AD9E167C7578.gr7.eu-west-3.eks.amazonaws.com"
+
+controller:
+  resources:
+    requests:
+      cpu: 1
+      memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 1Gi

@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   apiUrl: '/api',
-  uploadsUrl: '',
+  uploadsUrl: '/uploads',
   defaultCurrency: 'EUR' as const,
   hufPerEur: 395,
 };

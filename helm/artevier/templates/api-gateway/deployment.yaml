@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: artevier
+spec:
+  replicas: {{ (index .Values.services "api-gateway").replicas }}
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: "{{ (index .Values.services "api-gateway").image }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ (index .Values.services "api-gateway").targetPort }}
+          envFrom:
+            - secretRef:
+                name: api-gateway-secret

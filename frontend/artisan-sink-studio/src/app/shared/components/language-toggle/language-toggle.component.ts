@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { LanguageService } from '../../../core/services/language.service';
+import { DisplayLanguage, LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-language-toggle',
@@ -22,9 +22,9 @@ import { LanguageService } from '../../../core/services/language.service';
 })
 export class LanguageToggleComponent {
   languageService = inject(LanguageService);
-  options: Array<'fr' | 'hu'> = ['fr', 'hu'];
+  options: Array<DisplayLanguage> = ['en', 'fr', 'hu'];
 
-  setLanguage(value: 'fr' | 'hu'): void {
+  setLanguage(value: DisplayLanguage): void {
     this.languageService.setLanguage(value);
   }
 }

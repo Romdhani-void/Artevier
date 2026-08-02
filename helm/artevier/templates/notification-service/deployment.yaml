@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: artevier
+spec:
+  replicas: {{ (index .Values.services "notification-service").replicas }}
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+        - name: notification-service
+          image: "{{ (index .Values.services "notification-service").image }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ (index .Values.services "notification-service").targetPort }}
+          envFrom:
+            - secretRef:
+                name: notification-service-secret

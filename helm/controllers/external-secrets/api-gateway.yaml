@@ -1,0 +1,16 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: api-gateway-secret
+  namespace: artevier
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: aws-secrets-manager
+    kind: ClusterSecretStore
+  target:
+    name: api-gateway-secret
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: artevier/dev/api-gateway

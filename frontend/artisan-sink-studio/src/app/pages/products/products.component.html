@@ -1,21 +1,21 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="section-title mb-8">Product Catalog</h1>
+  <h1 class="section-title mb-8">Catalogue de parfums</h1>
 
   <div class="flex flex-col lg:flex-row gap-8">
     <!-- Filters Sidebar -->
     <aside class="lg:w-64 shrink-0">
       <div class="card p-6 space-y-4 sticky top-24 glass-panel">
-        <h3 class="font-semibold text-dark-100">Filters</h3>
+        <h3 class="font-semibold text-dark-100">Filtres</h3>
 
         <div>
-          <label class="block text-sm text-dark-400 mb-1">Search</label>
-          <input type="text" [(ngModel)]="search" (keyup.enter)="applyFilters()" class="input-field" placeholder="Search sinks...">
+          <label class="block text-sm text-dark-400 mb-1">Recherche</label>
+          <input type="text" [(ngModel)]="search" (keyup.enter)="applyFilters()" class="input-field" placeholder="Rechercher des parfums...">
         </div>
 
         <div>
-          <label class="block text-sm text-dark-400 mb-1">Material</label>
+          <label class="block text-sm text-dark-400 mb-1">Famille</label>
           <select [(ngModel)]="material" class="input-field">
-            <option value="">All Materials</option>
+            <option value="">Toutes les familles</option>
             @for (m of filterOptions.materials; track m) {
               <option [value]="m">{{ m }}</option>
             }
@@ -23,9 +23,9 @@
         </div>
 
         <div>
-          <label class="block text-sm text-dark-400 mb-1">Color</label>
+          <label class="block text-sm text-dark-400 mb-1">Intensity</label>
           <select [(ngModel)]="color" class="input-field">
-            <option value="">All Colors</option>
+            <option value="">Toutes les intensités</option>
             @for (c of filterOptions.colors; track c) {
               <option [value]="c">{{ c }}</option>
             }
@@ -33,9 +33,9 @@
         </div>
 
         <div>
-          <label class="block text-sm text-dark-400 mb-1">Shape</label>
+          <label class="block text-sm text-dark-400 mb-1">Format</label>
           <select [(ngModel)]="shape" class="input-field">
-            <option value="">All Shapes</option>
+            <option value="">Tous les formats</option>
             @for (s of filterOptions.shapes; track s) {
               <option [value]="s">{{ s }}</option>
             }
@@ -43,18 +43,18 @@
         </div>
 
         <div>
-          <label class="block text-sm text-dark-400 mb-1">Sort By</label>
+          <label class="block text-sm text-dark-400 mb-1">Trier par</label>
           <select [(ngModel)]="sort" class="input-field">
-            <option value="newest">Newest</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="popularity">Popularity</option>
+            <option value="newest">Nouveautés</option>
+            <option value="price-asc">Prix : du moins cher</option>
+            <option value="price-desc">Prix : du plus cher</option>
+            <option value="popularity">Popularité</option>
           </select>
         </div>
 
         <div class="flex gap-2">
-          <button (click)="applyFilters()" class="btn-primary flex-1 text-sm">Apply</button>
-          <button (click)="clearFilters()" class="btn-secondary text-sm px-3">Clear</button>
+          <button (click)="applyFilters()" class="btn-primary flex-1 text-sm">Appliquer</button>
+          <button (click)="clearFilters()" class="btn-secondary text-sm px-3">Effacer</button>
         </div>
       </div>
     </aside>

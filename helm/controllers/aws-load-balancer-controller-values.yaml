@@ -1,0 +1,11 @@
+clusterName: artevier-eks-cluster
+
+serviceAccount:
+  create: true
+  name: aws-load-balancer-controller
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::566167302576:role/artevier-eks-cluster-aws-load-balancer-controller-role"
+
+region: eu-west-3
+
+vpcId: "vpc-08ecf8a11737d91d6"
