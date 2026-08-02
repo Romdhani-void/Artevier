@@ -1,5 +1,5 @@
 pipeline {
-agent any
+    agent any
 
     stages {
         stage('Checkout') {
@@ -17,8 +17,12 @@ agent any
 
         stage('Build Backend') {
             steps {
-                dir('backend/user-service') {
-                    sh 'npm install'
+                container('node') {
+                    dir('backend/user-service') {
+                        sh 'node --version'
+                        sh 'npm --version'
+                        sh 'npm install'
+                    }
                 }
             }
         }
