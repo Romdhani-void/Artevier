@@ -21,7 +21,7 @@ pipeline {
                     dir('backend/user-service') {
                         sh 'node --version'
                         sh 'npm --version'
-                        sh 'npm install'
+                        sh 'curl -I https://registry.npmjs.org'
                     }
                 }
             }
