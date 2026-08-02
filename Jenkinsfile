@@ -26,12 +26,6 @@ pipeline {
                 }
             }
         }
-        stage('Verify Kaniko') {
-            steps {
-                container('kaniko') {
-                    sh '/kaniko/executor version'
-                }
-            }
-        }
+
     }
 }
