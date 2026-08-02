@@ -26,5 +26,20 @@ pipeline {
                 }
             }
         }
+        stage('Verify Tools') {
+            steps {
+                container('kubectl') {
+                    sh 'kubectl version --client'
+                }
+
+                container('helm') {
+                    sh 'helm version'
+                }
+
+                container('aws') {
+                    sh 'aws --version'
+                }
+            }
+        }
     }
 }
