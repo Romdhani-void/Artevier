@@ -26,15 +26,10 @@ pipeline {
                 }
             }
         }
-        stage('Verify Tools') {
+        stage('Verify Kaniko') {
             steps {
-                container('tools') {
-                    sh 'kubectl version --client'
-                    sh 'helm version'
-                }
-
-                container('aws') {
-                    sh 'aws --version'
+                container('kaniko') {
+                    sh '/kaniko/executor version'
                 }
             }
         }
