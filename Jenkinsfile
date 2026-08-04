@@ -24,25 +24,36 @@ pipeline {
             }
         }
 
-        stage('Build Backend') {
+        stage('Install Backend Dependencies') {
             steps {
                 container('node') {
-                    dir('backend/user-service') {
-                        sh 'npm ci || npm install'
+                    script {
+                        def services = ['user-service', 'product-service', 'order-service', 'notification-service', 'api-gateway']
+                        for (svc in services) {
+                            dir("backend/${svc}") {
+                                sh 'npm ci || npm install'
+                            }
+                        }
                     }
                 }
             }
         }
 
-        stage('Build & Push user-service Image') {
+        stage('Build & Push Images') {
             steps {
                 container('kaniko') {
-                    sh '''
-                        /kaniko/executor \
-                          --context=`pwd`/backend \
-                          --dockerfile=`pwd`/backend/user-service/Dockerfile \
-                          --destination=${ECR_REGISTRY}/artevier-user_service:${BUILD_NUMBER}
-                    '''
+                    script {
+                        def services = ['user-service', 'product-service', 'order-service', 'notification-service', 'api-gateway']
+                        for (svc in services) {
+                            def imageName = svc.replace('-', '_')
+                            sh """
+                                /kaniko/executor \\
+                                  --context=`pwd`/backend \\
+                                  --dockerfile=`pwd`/backend/${svc}/Dockerfile \\
+                                  --destination=${ECR_REGISTRY}/artevier-${imageName}:${BUILD_NUMBER}
+                            """
+                        }
+                    }
                 }
             }
         }
