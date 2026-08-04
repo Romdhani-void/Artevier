@@ -39,7 +39,7 @@ pipeline {
             }
         }
 
-        stage('Build & Push Images') {
+        stage('Build & Push Backend Images') {
             steps {
                 container('kaniko') {
                     script {
@@ -54,6 +54,19 @@ pipeline {
                             """
                         }
                     }
+                }
+            }
+        }
+
+        stage('Build & Push Frontend Image') {
+            steps {
+                container('kaniko') {
+                    sh """
+                        /kaniko/executor \\
+                          --context=`pwd`/frontend/artisan-sink-studio \\
+                          --dockerfile=`pwd`/frontend/artisan-sink-studio/Dockerfile \\
+                          --destination=${ECR_REGISTRY}/artevier-frontend:${BUILD_NUMBER}
+                    """
                 }
             }
         }
