@@ -10,6 +10,8 @@ rules:
       - services
       - deployments
       - replicasets
+      - statefulsets
+      - persistentvolumeclaims
       - ingresses
       - configmaps
       - secrets
