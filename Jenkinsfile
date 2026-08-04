@@ -4,26 +4,25 @@ pipeline {
             label 'jenkins-agent'
         }
     }
-
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
     environment {
         AWS_REGION   = 'eu-west-3'
         ECR_REGISTRY = '566167302576.dkr.ecr.eu-west-3.amazonaws.com'
     }
-
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
         stage('Verify Repository') {
             steps {
                 sh 'pwd'
                 sh 'ls -la'
             }
         }
-
         stage('Install Backend Dependencies') {
             steps {
                 container('node') {
@@ -38,7 +37,6 @@ pipeline {
                 }
             }
         }
-
         stage('Build & Push Backend Images') {
             steps {
                 container('kaniko') {
@@ -57,7 +55,6 @@ pipeline {
                 }
             }
         }
-
         stage('Build & Push Frontend Image') {
             steps {
                 container('kaniko') {
@@ -70,7 +67,6 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy to EKS') {
             steps {
                 container('tools') {
