@@ -39,7 +39,7 @@ pipeline {
                 container('kaniko') {
                     sh '''
                         /kaniko/executor \
-                          --context=`pwd`/backend/user-service \
+                          --context=`pwd`/backend \
                           --dockerfile=`pwd`/backend/user-service/Dockerfile \
                           --destination=${ECR_REGISTRY}/artevier-user_service:${BUILD_NUMBER} \
                           --destination=${ECR_REGISTRY}/artevier-user_service:latest
