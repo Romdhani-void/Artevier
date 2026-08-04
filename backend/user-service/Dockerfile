@@ -5,5 +5,6 @@ RUN npm install
 COPY user-service/. .
 COPY shared ./shared
 COPY shared /shared
+RUN npm install --prefix /shared
 EXPOSE 3001
 CMD ["npm", "start"]
