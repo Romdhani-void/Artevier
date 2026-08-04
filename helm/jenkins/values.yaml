@@ -1,0 +1,83 @@
+controller:
+  jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+  jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+
+  serviceAccount:
+    create: false
+    name: jenkins
+
+  installPlugins:
+    - kubernetes:latest
+    - workflow-aggregator:latest
+    - git:latest
+    - configuration-as-code:latest
+    - amazon-ecr:latest
+
+  JCasC:
+    configScripts:
+      jenkins-casc-config: |
+        jenkins:
+          clouds:
+            - kubernetes:
+                name: "artevier-k8s"
+                namespace: "jenkins"
+                jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+                jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+                templates:
+                  - name: "default"
+                    label: "default"
+                    agentInjection: true
+                    nodeUsageMode: NORMAL
+                    containers:
+                      - name: "jnlp"
+                        image: "jenkins/inbound-agent:latest"
+                        workingDir: "/home/jenkins/agent"
+                        resourceRequestCpu: "250m"
+                        resourceRequestMemory: "512Mi"
+                        resourceLimitCpu: "500m"
+                        resourceLimitMemory: "1Gi"
+                  - name: "jenkins-agent"
+                    label: "jenkins-agent"
+                    namespace: "jenkins"
+                    serviceAccount: "jenkins"
+                    nodeUsageMode: NORMAL
+                    containers:
+                      - name: "jnlp"
+                        image: "jenkins/inbound-agent:latest"
+                        workingDir: "/home/jenkins/agent"
+                        resourceRequestCpu: "250m"
+                        resourceRequestMemory: "512Mi"
+                        resourceLimitCpu: "500m"
+                        resourceLimitMemory: "1Gi"
+                      - name: "node"
+                        image: "node:20"
+                        command: "sleep"
+                        args: "99d"
+                        resourceRequestCpu: "500m"
+                        resourceRequestMemory: "1Gi"
+                      - name: "aws"
+                        image: "amazon/aws-cli:latest"
+                        command: "sleep"
+                        args: "99d"
+                        resourceRequestCpu: "250m"
+                        resourceRequestMemory: "512Mi"
+                      - name: "tools"
+                        image: "alpine/k8s:1.28.2"
+                        command: "sleep"
+                        args: "99d"
+                        resourceRequestCpu: "250m"
+                        resourceRequestMemory: "512Mi"
+
+serviceAccount:
+  create: true
+  name: jenkins
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::566167302576:role/artevier-eks-cluster-jenkins-role"
+
+persistence:
+  enabled: true
+  storageClass: ebs-sc
+  size: 8Gi
+
+agent:
+  enabled: false
