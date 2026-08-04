@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            label 'jenkins-agent'
+        }
+    }
 
     stages {
         stage('Checkout') {
@@ -29,8 +33,22 @@ pipeline {
             steps {
                 container('aws') {
                     sh '''
-                aws ecr get-login-password --region eu-west-3
-            '''
+                        aws ecr get-login-password --region eu-west-3
+                    '''
+                }
+            }
+        }
+
+        stage('Check Docker') {
+            steps {
+                container('node') {
+                    sh '''
+                        echo "=== Docker ==="
+                        docker --version || true
+
+                        echo "=== Which Docker ==="
+                        which docker || true
+                    '''
                 }
             }
         }
