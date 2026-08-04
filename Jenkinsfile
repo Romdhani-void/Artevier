@@ -57,5 +57,19 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to EKS') {
+            steps {
+                container('tools') {
+                    sh """
+                        helm upgrade --install artevier ./helm/artevier \\
+                          -f ./helm/artevier/values.yaml \\
+                          --namespace artevier \\
+                          --set image.tag=${BUILD_NUMBER} \\
+                          --wait --timeout 5m
+                    """
+                }
+            }
+        }
     }
 }
