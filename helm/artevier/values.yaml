@@ -1,44 +1,37 @@
-image:
+﻿image:
   tag: latest
   pullPolicy: IfNotPresent
-
 services:
   api-gateway:
     replicas: 1
     port: 80
     targetPort: 8080
-    image: ""
-
+    image: "566167302576.dkr.ecr.eu-west-3.amazonaws.com/artevier-api_gateway"
   frontend:
     replicas: 1
     port: 80
     targetPort: 3000
-    image: ""
-
+    image: "566167302576.dkr.ecr.eu-west-3.amazonaws.com/artevier-frontend"
   notification-service:
     replicas: 1
     port: 80
     targetPort: 8080
-    image: ""
-
+    image: "566167302576.dkr.ecr.eu-west-3.amazonaws.com/artevier-notification_service"
   order-service:
     replicas: 1
     port: 80
     targetPort: 8080
-    image: ""
-
+    image: "566167302576.dkr.ecr.eu-west-3.amazonaws.com/artevier-order_service"
   product-service:
     replicas: 1
     port: 80
     targetPort: 8080
-    image: ""
-
+    image: "566167302576.dkr.ecr.eu-west-3.amazonaws.com/artevier-product_service"
   user-service:
     replicas: 1
     port: 80
     targetPort: 8080
-    image: ""
-
+    image: "566167302576.dkr.ecr.eu-west-3.amazonaws.com/artevier-user_service"
 ingress:
   enabled: true
   className: alb
