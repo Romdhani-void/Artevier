@@ -5,6 +5,11 @@ pipeline {
         }
     }
 
+    environment {
+        AWS_REGION   = 'eu-west-3'
+        ECR_REGISTRY = '566167302576.dkr.ecr.eu-west-3.amazonaws.com'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -29,25 +34,15 @@ pipeline {
             }
         }
 
-        stage('Build Backend Docker Image') {
+        stage('Build & Push user-service Image') {
             steps {
-                container('aws') {
+                container('kaniko') {
                     sh '''
-                        aws ecr get-login-password --region eu-west-3
-                    '''
-                }
-            }
-        }
-
-        stage('Check Docker') {
-            steps {
-                container('node') {
-                    sh '''
-                        echo "=== Docker ==="
-                        docker --version || true
-
-                        echo "=== Which Docker ==="
-                        which docker || true
+                        /kaniko/executor \
+                          --context=`pwd`/backend/user-service \
+                          --dockerfile=`pwd`/backend/user-service/Dockerfile \
+                          --destination=${ECR_REGISTRY}/artevier-user_service:${BUILD_NUMBER} \
+                          --destination=${ECR_REGISTRY}/artevier-user_service:latest
                     '''
                 }
             }
